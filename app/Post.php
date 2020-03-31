@@ -13,8 +13,14 @@ class Post extends Model
     'slug'
   ];
 
-   public function user() {
-     
+   public function user()
+    {
+
       return $this->belongsTo('App\User');
+    }
+
+    public function comments()
+    {
+      return $this->hasMany('App\Comment');
     }
 }
