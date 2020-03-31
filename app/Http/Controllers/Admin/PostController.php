@@ -87,9 +87,21 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
+      $request->validate([
+        'title' => 'required|string|max:255',
+        'body' => 'required|string|max:1000',
+    ]);
 
+      $data = $request->all();
+
+      $post->fill($data);
+      $post->user_id = Auth::id();
+      $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
+      $post->update($data);
+
+      return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -98,8 +110,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+      if (empty($post)) {
+        abort('404');
+      }
+      $post->delete();
+      return redirect()->route('admin.posts.destroy');
     }
 }

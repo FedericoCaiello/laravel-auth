@@ -20,6 +20,13 @@
           <td>{{$post->slug}}</td>
           <td><a href="{{route('admin.posts.show', $post)}}">show</a></td>
           <td><a href="{{route('admin.posts.edit', $post)}}">modifica</a></td>
+          <td>
+          <form action="{{route('admin.posts.destroy', $post)}}" method="post">
+              @csrf
+              @method('DELETE')
+              <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+          </td>
         </tr>
         @endforeach
     </tbody>
