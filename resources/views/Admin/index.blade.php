@@ -19,6 +19,7 @@
           <td>{{$post->body}}</td>
           <td>{{$post->slug}}</td>
           <td><a href="{{route('admin.posts.show', $post)}}">show</a></td>
+          <td><a href="{{route('admin.posts.edit', $post)}}">modifica</a></td>
         </tr>
         @endforeach
     </tbody>
