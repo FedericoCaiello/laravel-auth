@@ -10,16 +10,15 @@
       </tr>
     </thead>
     <tbody>
-        @foreach ($posts as $post)
+
         <tr>
           <th scope="row">{{$post->id}}</th>
           <td>{{$post->title}}</td>
           <td>{{$post->body}}</td>
           <td>{{$post->slug}}</td>
-          <td><a href="{{route('admin.posts.show', $post)}}">show</a></td>
+          <td><a href="{{route('admin.posts.index', $post)}}">back</a></td>
         </tr>
 
-        @endforeach
     </tbody>
   </table>
 @endsection
