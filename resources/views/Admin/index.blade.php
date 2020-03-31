@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+  <a class="btn btn-primary" href="{{route('admin.posts.create')}}">Create</a>
   <table class="table">
     <thead>
       <tr>
@@ -10,6 +11,7 @@
       </tr>
     </thead>
     <tbody>
+
         @foreach ($posts as $post)
         <tr>
           <th scope="row">{{$post->id}}</th>
@@ -18,7 +20,6 @@
           <td>{{$post->slug}}</td>
           <td><a href="{{route('admin.posts.show', $post)}}">show</a></td>
         </tr>
-
         @endforeach
     </tbody>
   </table>

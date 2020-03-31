@@ -28,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+      return view('Admin.create');
     }
 
     /**
@@ -39,7 +39,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $data = $request->all();
+      dd($data);
     }
 
     /**
