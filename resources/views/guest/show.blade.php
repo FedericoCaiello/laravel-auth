@@ -14,14 +14,6 @@
       <div class="row mt-3">
         <div class="col-12">
           <h2>Commenti</h2>
-          {{-- @foreach ($post->comments as $comment)
-              <h3>{{$comment->title}}</h3>
-              <small>{{$comment->name}}</small>
-              <div>
-                {{$comment->body}}
-              </div>
-          @endforeach --}}
-          {{-- @dd($post->comments)   --}}
           @forelse ($post->comments as $comment)
               <h3>{{$comment->title}}</h3>
               <small>{{$comment->name}}</small>
