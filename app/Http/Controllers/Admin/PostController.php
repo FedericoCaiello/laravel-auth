@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Post;
 use App\Tag;
@@ -51,10 +52,15 @@ class PostController extends Controller
 
       $data = $request->all();
 
+      $path = Storage::disk('public')->put('images', $data['img']);
+
+
       $post = new Post;
       $post->fill($data);
       $post->user_id = Auth::id();
       $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
+      $post->img = $path;
+      dd($post);
       $saved = $post->save();
 
       if(!$saved) {
@@ -63,6 +69,7 @@ class PostController extends Controller
 
       $tags = $data['tags'];
       $post->tags()->attach($tags);
+
 
       return redirect()->route('admin.posts.index', $post->slug);
     }
@@ -86,7 +93,12 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-      return view('Admin.edit', compact('post'));
+      $tags = Tag::all();
+      $data = [
+        'tags' => $tags,
+        'post' => $post,
+      ];
+      return view('Admin.edit', $data);
     }
 
     /**
@@ -109,6 +121,9 @@ class PostController extends Controller
       $post->user_id = Auth::id();
       $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
       $post->update($data);
+
+      $tags = $data['tags'];
+      $post->tags()->sync($tags);
 
       return redirect()->route('admin.posts.index');
     }
