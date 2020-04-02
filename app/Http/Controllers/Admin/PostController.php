@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use Carbon\Carbon;
 use App\Post;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -31,7 +32,8 @@ class PostController extends Controller
      */
     public function create()
     {
-      return view('Admin.create');
+      $tags = Tag::all();
+      return view('Admin.create', compact('tags'));
     }
 
     /**
@@ -53,9 +55,16 @@ class PostController extends Controller
       $post->fill($data);
       $post->user_id = Auth::id();
       $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
-      $post->save();
+      $saved = $post->save();
 
-      return redirect()->route('admin.posts.index');
+      if(!$saved) {
+        return redirect()->back();
+      }
+
+      $tags = $data['tags'];
+      $post->tags()->attach($tags);
+
+      return redirect()->route('admin.posts.index', $post->slug);
     }
 
     /**
@@ -116,6 +125,8 @@ class PostController extends Controller
         abort('404');
       }
       $post->comments()->delete();
+      $post->tags()->detach();
+
 
       $post->delete();
       return redirect()->route('admin.posts.index');
