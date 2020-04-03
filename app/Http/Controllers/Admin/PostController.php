@@ -45,6 +45,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+      
       $request->validate([
         'title' => 'required|string|max:255',
         'body' => 'required|string|max:1000',
@@ -60,7 +61,6 @@ class PostController extends Controller
       $post->user_id = Auth::id();
       $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
       $post->img = $path;
-      dd($post);
       $saved = $post->save();
 
       if(!$saved) {

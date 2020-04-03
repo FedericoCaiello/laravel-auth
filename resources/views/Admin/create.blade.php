@@ -18,7 +18,7 @@
            </div>
          @endforeach
       </div>
-      <input type="file" name="img" value="">
+      <input accept="image/*" type="file" name="img" value="">
       <button type="submit" name="button">Salva</button>
     </div>
   </form>
